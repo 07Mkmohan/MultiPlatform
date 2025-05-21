@@ -1,11 +1,22 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Home.css";
 
 function Home() {
   return (
-    <div className="home-container">
+    <div className="home-container" id="home">
+      <nav className="navbar">
+        <h1>MultiPlatform</h1>
+        <div className="nav-links">
+          <Link to="/">Home</Link>
+          <Link to="#services">Services</Link>
+          <Link to="#contact">Contact Us</Link>
+          <Link to="/register">Get Started</Link>
+        </div>
+      </nav>
+
       <main className="main-content">
-        <section className="intro">
+        <section className="intro" id="services">
           <h2>Welcome to the Future of All-in-One Platforms</h2>
           <p>
             MultiPlatform App brings together the power of job search, skill
@@ -46,12 +57,12 @@ function Home() {
           </div>
         </section>
 
-        <section id="contact" className="contact">
-          <h3>Have Questions?</h3>
-          <p>
-            Reach out to our support team or explore FAQs to get help instantly.
-          </p>
-          <button className="contact-btn">Contact Us</button>
+        <section id="get-started" className="get-started">
+          <h3>Get Started Today</h3>
+          <p>Sign up now and unlock the full potential of MultiPlatform App!</p>
+          <Link to="/register" className="contact-btn">
+            Join Now
+          </Link>
         </section>
       </main>
 
