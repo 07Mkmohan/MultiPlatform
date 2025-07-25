@@ -11,23 +11,58 @@ const ScheduleInterviews = () => {
     location: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Scheduled Interview:", formData);
-    alert("Interview Scheduled Successfully!");
-    setFormData({
-      candidateName: "",
-      email: "",
-      interviewDate: "",
-      interviewTime: "",
-      interviewer: "",
-      location: "",
-    });
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("No token found. Please log in again.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/recruiter/scheduleInterview",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Failed to schedule interview.");
+      }
+
+      alert("✅ Interview scheduled successfully!");
+
+      setFormData({
+        candidateName: "",
+        email: "",
+        interviewDate: "",
+        interviewTime: "",
+        interviewer: "",
+        location: "",
+      });
+    } catch (error) {
+      console.error("❌ Error scheduling interview:", error);
+      alert("Failed to schedule interview. Check the console for details.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -100,7 +135,9 @@ const ScheduleInterviews = () => {
           />
         </label>
 
-        <button type="submit">Schedule Interview</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Scheduling..." : "Schedule Interview"}
+        </button>
       </form>
     </div>
   );

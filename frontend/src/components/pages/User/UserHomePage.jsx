@@ -12,6 +12,7 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import "./UserHome.css";
+import axios from "axios";
 
 import Dashboard from "./UserPages/Dashboard";
 import Notifications from "./UserPages/Notifications";
@@ -39,8 +40,25 @@ const UserHomePage = () => {
   const dropdownRef = useRef(null);
 
   const handleToggleDropdown = () => setDropdownOpen((prev) => !prev);
-  const handleLogout = () => navigate("/login");
+
   const handleProfile = () => navigate("/profile");
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "http://localhost:8080/api/users/logout",
+        {},
+        { withCredentials: true }
+      );
+      // Remove token from localStorage on successful logout
+      localStorage.removeItem("token");
+      alert("Logged out successfully");
+      navigate("/login"); // Redirect to login page or wherever you want
+    } catch (error) {
+      console.error("Logout failed:", error);
+      alert("Logout failed. Please try again.");
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -91,7 +109,12 @@ const UserHomePage = () => {
     <div className="uh-layout">
       <nav className="uh-navbar">
         <h1 className="uh-title">MultiPlatform App</h1>
-        <div className="uh-profile" ref={dropdownRef}>
+        <div
+          className="uh-profile"
+          ref={dropdownRef}
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+        >
+          <span className="uh-username">{username}</span>
           <FaUserCircle
             size={28}
             onClick={handleToggleDropdown}
@@ -152,9 +175,9 @@ const UserHomePage = () => {
             <button onClick={() => setSelectedSection("saved-jobs")}>
               <FaHeart /> Saved Jobs
             </button>
-            <button onClick={() => setSelectedSection("job-Completed Courses")}>
+            {/* <button onClick={() => setSelectedSection("job-Completed Courses")}>
               <FaBriefcase /> Job Categories
-            </button>
+            </button> */}
           </div>
 
           <div className="uh-section">

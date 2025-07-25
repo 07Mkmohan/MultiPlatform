@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./register.css";
 
 function Register() {
@@ -16,6 +18,7 @@ function Register() {
     acceptTerms: false,
   });
 
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -28,14 +31,18 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
+      toast.error("Passwords do not match.");
       return;
     }
+
     if (!formData.acceptTerms) {
-      alert("You must accept the Terms and Conditions.");
+      toast.error("You must accept the Terms and Conditions.");
       return;
     }
+
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -52,22 +59,45 @@ function Register() {
         }
       );
 
-      alert("Registration successful!");
-      console.log("Registered user:", response.data);
-
-      // Redirect to login page
-      navigate("/login");
+      toast.success("🎉 Registration successful!", {
+        icon: "✅",
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        className: "custom-toast-success",
+        style: {
+          backgroundColor: "#e6fffa",
+          color: "#2c7a7b",
+          fontWeight: "bold",
+        },
+        onClose: () => navigate("/login"),
+      });
     } catch (error) {
-      console.error("Registration error:", error);
-      alert("Registration failed.");
+      if (error.response && error.response.data) {
+        toast.error("❌ Registration failed!", {
+          icon: "🚫",
+          position: "bottom-left",
+          className: "custom-toast-error",
+          style: {
+            backgroundColor: "#fff5f5",
+            color: "#c53030",
+            fontWeight: "bold",
+          },
+        });
+      } else {
+        toast.error("Registration failed. Please try again later.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="form-container">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="column">
+    <div className="register-form-container">
+      <ToastContainer position="top-right" />
+      <h2 className="register-title">Register</h2>
+      <form className="register-form" onSubmit={handleSubmit}>
+        <div className="register-column">
           <input
             type="text"
             name="firstName"
@@ -91,6 +121,7 @@ function Register() {
             value={formData.age}
             onChange={handleChange}
             required
+            min={0}
           />
           <input
             type="password"
@@ -99,9 +130,11 @@ function Register() {
             value={formData.password}
             onChange={handleChange}
             required
+            minLength={6}
           />
         </div>
-        <div className="column">
+
+        <div className="register-column">
           <input
             type="text"
             name="middleName"
@@ -131,29 +164,35 @@ function Register() {
             value={formData.confirmPassword}
             onChange={handleChange}
             required
+            minLength={6}
           />
         </div>
 
-        <label className="terms-label">
-          <input
-            type="checkbox"
-            name="acceptTerms"
-            checked={formData.acceptTerms}
-            onChange={handleChange}
-            required
-          />
-          I accept the{" "}
-          <a href="/terms" target="_blank" rel="noopener noreferrer">
-            Terms and Conditions
-          </a>
-        </label>
+        {/* Terms Label */}
+        <div className="register-terms-container">
+          <label className="register-terms-label">
+            <input
+              type="checkbox"
+              name="acceptTerms"
+              checked={formData.acceptTerms}
+              onChange={handleChange}
+              required
+            />
+            I accept the{" "}
+            <a href="/terms" target="_blank" rel="noopener noreferrer">
+              Terms and Conditions
+            </a>
+          </label>
+        </div>
 
-        <div className="button-container">
-          <button type="submit">Register</button>
+        <div className="register-button-container">
+          <button className="register-btn" type="submit" disabled={loading}>
+            {loading ? "Registering..." : "Register"}
+          </button>
         </div>
       </form>
 
-      <div className="login-link">
+      <div className="register-login-link">
         <Link to="/login">Already have an account? Login here</Link>
       </div>
     </div>

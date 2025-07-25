@@ -19,7 +19,8 @@ public class users {
     private String password;
     @Transient
     private String confirmPassword;
-
+    @Column(nullable = false)
+    private String role = "USER";
     public users() {}
 
     public users(String firstName, String middleName, String lastName, String age, String dob, String email, String password, String confirmPassword) {
@@ -97,5 +98,13 @@ public class users {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

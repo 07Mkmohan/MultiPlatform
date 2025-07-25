@@ -27,6 +27,7 @@ import ScheduleInterviews from "./recruPages/ScheduleInterviews";
 import Messages from "./recruPages/Messages";
 import Profile from "./recruPages/Profile";
 import Settings from "./recruPages/Settings";
+import { useNavigate } from "react-router-dom";
 
 const RecruiterHome = () => {
   const [selectedPage, setSelectedPage] = useState("dashboard");
@@ -79,6 +80,8 @@ const RecruiterHome = () => {
     { id: "settings", label: "Settings", icon: faCogs },
   ];
 
+  const navigate = useNavigate();
+
   return (
     <div className={`recr-home-container ${darkMode ? "dark-mode" : ""}`}>
       <nav className="recr-home-navbar">
@@ -118,7 +121,7 @@ const RecruiterHome = () => {
                 </p>
                 <p
                   onClick={() => {
-                    // Add logout logic here
+                    navigate("/login");
                     setProfileMenuOpen(false);
                   }}
                 >

@@ -9,7 +9,7 @@
   max-width: 400px;
   width: 90%;
   text-align: center;
-  margin: 60px auto;
+  margin: 150px auto;
   box-sizing: border-box;
 }
 
@@ -22,6 +22,7 @@
 .login-container form {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Input Fields */
@@ -32,6 +33,7 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
+  margin-top: 18px;
   transition: border-color 0.3s ease;
   width: 100%;
   box-sizing: border-box;
@@ -140,4 +142,27 @@
   .login-container button {
     margin-top: 12px;
   }
+}
+
+
+/* Toastify custom styles */
+.custom-toast-success {
+  border-left: 6px solid #38b2ac;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.custom-toast-error {
+  border-left: 6px solid #e53e3e;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.custom-toast-warning {
+  border-left: 6px solid #dd6b20;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
 }

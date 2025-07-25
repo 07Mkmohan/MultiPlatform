@@ -1,76 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUsers,
   faEdit,
   faTrash,
   faSearch,
-  faChevronLeft,
-  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import Modal from "react-modal";
 import "./adminpage.css";
 
-const initialUsers = [
-  {
-    username: "john_doe",
-    email: "john@example.com",
-    role: "Student",
-    status: "Active",
-    lastLogin: "2025-05-14T10:15:00",
-  },
-  {
-    username: "admin_01",
-    email: "admin@example.com",
-    role: "Admin",
-    status: "Inactive",
-    lastLogin: "2025-05-13T08:30:00",
-  },
-  // Add more users if needed
-];
-
 const Users = () => {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 5;
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/admins/allUsers"
+      );
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const handleDelete = async (email) => {
+    if (!window.confirm(`Are you sure you want to delete ${email}?`)) return;
+    try {
+      await axios.delete("http://localhost:8080/api/admins/deleteUser", {
+        params: { email },
+      });
+      setUsers((prev) => prev.filter((u) => u.email !== email));
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("Failed to delete user.");
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      await axios.put(
+        "http://localhost:8080/api/admins/updateUser",
+        selectedUser
+      );
+      setUsers((prev) =>
+        prev.map((user) =>
+          user.email === selectedUser.email ? selectedUser : user
+        )
+      );
+      closeModal();
+    } catch (error) {
+      console.error("Error updating user:", error);
+      alert("Failed to update user.");
+    }
+  };
 
   const filteredUsers = users.filter((user) =>
     Object.values(user).some((val) =>
-      val.toString().toLowerCase().includes(search.toLowerCase())
+      val?.toString().toLowerCase().includes(search.toLowerCase())
     )
   );
 
-  const indexOfLastUser = currentPage * usersPerPage;
-  const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
-  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
-
   const openModal = (user) => {
-    setSelectedUser({ ...user }); // create editable copy
+    setSelectedUser({ ...user });
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
     setSelectedUser(null);
     setModalIsOpen(false);
-  };
-
-  const formatLogin = (dateStr) => {
-    const options = { weekday: "long", hour: "2-digit", minute: "2-digit" };
-    return new Date(dateStr).toLocaleDateString(undefined, options);
-  };
-
-  const saveUserChanges = () => {
-    setUsers((prev) =>
-      prev.map((user) =>
-        user.email === selectedUser.email ? selectedUser : user
-      )
-    );
-    closeModal();
   };
 
   return (
@@ -101,33 +107,21 @@ const Users = () => {
       <table className="admin-users-table">
         <thead>
           <tr>
-            <th>Username</th>
+            <th>Full Name</th>
             <th>Email</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Last Login</th>
+            <th>Age</th>
+            <th>DOB</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {currentUsers.length > 0 ? (
-            currentUsers.map((user, index) => (
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((user, index) => (
               <tr key={index} className="admin-users-row">
-                <td>{user.username}</td>
+                <td>{`${user.firstName} ${user.middleName} ${user.lastName}`}</td>
                 <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td>
-                  <span
-                    className={`admin-users-status ${
-                      user.status === "Active"
-                        ? "admin-users-status-active"
-                        : "admin-users-status-inactive"
-                    }`}
-                  >
-                    {user.status}
-                  </span>
-                </td>
-                <td>{formatLogin(user.lastLogin)}</td>
+                <td>{user.age}</td>
+                <td>{user.dob}</td>
                 <td>
                   <button
                     className="admin-users-action-btn"
@@ -139,6 +133,7 @@ const Users = () => {
                   <button
                     className="admin-users-action-btn delete"
                     title="Delete User"
+                    onClick={() => handleDelete(user.email)}
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
@@ -147,7 +142,7 @@ const Users = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="admin-users-empty">
+              <td colSpan="5" className="admin-users-empty">
                 No users match your search.
               </td>
             </tr>
@@ -155,26 +150,7 @@ const Users = () => {
         </tbody>
       </table>
 
-      {/* Pagination */}
-      <div className="admin-users-pagination">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage((prev) => prev - 1)}
-        >
-          <FontAwesomeIcon icon={faChevronLeft} /> Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage((prev) => prev + 1)}
-        >
-          Next <FontAwesomeIcon icon={faChevronRight} />
-        </button>
-      </div>
-
-      {/* User Edit Modal */}
+      {/* Modal */}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -186,56 +162,76 @@ const Users = () => {
         {selectedUser && (
           <div className="admin-users-modal-form">
             <label>
-              Username:
+              First Name:
               <input
                 type="text"
-                value={selectedUser.username}
+                value={selectedUser.firstName}
                 onChange={(e) =>
-                  setSelectedUser({ ...selectedUser, username: e.target.value })
+                  setSelectedUser({
+                    ...selectedUser,
+                    firstName: e.target.value,
+                  })
+                }
+              />
+            </label>
+            <label>
+              Middle Name:
+              <input
+                type="text"
+                value={selectedUser.middleName}
+                onChange={(e) =>
+                  setSelectedUser({
+                    ...selectedUser,
+                    middleName: e.target.value,
+                  })
+                }
+              />
+            </label>
+            <label>
+              Last Name:
+              <input
+                type="text"
+                value={selectedUser.lastName}
+                onChange={(e) =>
+                  setSelectedUser({ ...selectedUser, lastName: e.target.value })
                 }
               />
             </label>
             <label>
               Email:
+              <input type="email" value={selectedUser.email} disabled />
+            </label>
+            <label>
+              Age:
               <input
-                type="email"
-                value={selectedUser.email}
+                type="number"
+                value={selectedUser.age}
                 onChange={(e) =>
-                  setSelectedUser({ ...selectedUser, email: e.target.value })
+                  setSelectedUser({
+                    ...selectedUser,
+                    age: Number(e.target.value),
+                  })
                 }
               />
             </label>
             <label>
-              Role:
-              <select
-                value={selectedUser.role}
+              DOB:
+              <input
+                type="date"
+                value={selectedUser.dob}
                 onChange={(e) =>
-                  setSelectedUser({ ...selectedUser, role: e.target.value })
+                  setSelectedUser({ ...selectedUser, dob: e.target.value })
                 }
-              >
-                <option>Student</option>
-                <option>Admin</option>
-                <option>Instructor</option>
-              </select>
+              />
             </label>
-            <label>
-              Status:
-              <select
-                value={selectedUser.status}
-                onChange={(e) =>
-                  setSelectedUser({ ...selectedUser, status: e.target.value })
-                }
-              >
-                <option>Active</option>
-                <option>Inactive</option>
-              </select>
-            </label>
-            <p>
-              <strong>Last Login:</strong> {formatLogin(selectedUser.lastLogin)}
-            </p>
             <div className="admin-users-modal-actions">
               <button onClick={closeModal}>Cancel</button>
-              <button onClick={saveUserChanges}>Save Changes</button>
+              <button
+                onClick={handleSave}
+                disabled={!selectedUser.firstName || !selectedUser.lastName}
+              >
+                Save Changes
+              </button>
             </div>
           </div>
         )}
