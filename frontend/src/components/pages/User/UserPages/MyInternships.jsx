@@ -19,7 +19,7 @@ const MyInternships = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:8080/api/student/internship-applications",
+        "https://multiplatform-webapp.onrender.com/api/student/internship-applications",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -40,7 +40,7 @@ const MyInternships = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:8080/api/student/internship-applications/${selectedId}`,
+        `https://multiplatform-webapp.onrender.com/api/student/internship-applications/${selectedId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

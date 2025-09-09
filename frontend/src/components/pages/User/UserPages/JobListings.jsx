@@ -26,7 +26,7 @@ const JobListings = () => {
         if (payload?.email) {
           setStudentEmail(payload.email);
           axios
-            .get("http://localhost:8080/api/student/me", {
+            .get("https://multiplatform-webapp.onrender.com/api/student/me", {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -47,7 +47,7 @@ const JobListings = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/student/jobs")
+      .get("https://multiplatform-webapp.onrender.com/api/student/jobs")
       .then((res) => {
         setJobs(res.data);
         setLoading(false);
@@ -73,7 +73,7 @@ const JobListings = () => {
 
     axios
       .post(
-        "http://localhost:8080/api/student/apply",
+        "https://multiplatform-webapp.onrender.com/api/student/apply",
         {
           jobId: job.id,
           jobType: "job",
@@ -106,11 +106,15 @@ const JobListings = () => {
     }
 
     axios
-      .post(`http://localhost:8080/api/student/saved-jobs/${job.id}`, null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post(
+        `https://multiplatform-webapp.onrender.com/api/student/saved-jobs/${job.id}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then(() => {
         toast.success("Job saved successfully!");
       })
@@ -132,12 +136,16 @@ const JobListings = () => {
     formData.append("resume", file);
 
     axios
-      .post("http://localhost:8080/api/student/uploadResume", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post(
+        "https://multiplatform-webapp.onrender.com/api/student/uploadResume",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((res) => {
         setResumeLink(res.data.resumeLink);
         toast.success("Resume uploaded successfully");

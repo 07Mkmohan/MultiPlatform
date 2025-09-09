@@ -53,7 +53,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (!token) return;
 
-    fetch("http://localhost:8080/api/profile/me", {
+    fetch("https://multiplatform-webapp.onrender.com/api/profile/me", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -186,7 +186,7 @@ const ProfilePage = () => {
       resumeName: resume?.name || "",
     };
 
-    fetch("http://localhost:8080/api/profile", {
+    fetch("https://multiplatform-webapp.onrender.com/api/profile", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -203,13 +203,16 @@ const ProfilePage = () => {
         if (resume) {
           const formData = new FormData();
           formData.append("file", resume);
-          return fetch("http://localhost:8080/api/profile/upload", {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            body: formData,
-          });
+          return fetch(
+            "https://multiplatform-webapp.onrender.com/api/profile/upload",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              body: formData,
+            }
+          );
         }
       })
       .then((res) => {
@@ -610,7 +613,7 @@ const ProfilePage = () => {
                 <button
                   onClick={() =>
                     window.open(
-                      "http://localhost:8080/api/profile/view",
+                      "https://multiplatform-webapp.onrender.com/api/profile/view",
                       "_blank"
                     )
                   }
@@ -621,12 +624,15 @@ const ProfilePage = () => {
 
                 <button
                   onClick={() => {
-                    fetch("http://localhost:8080/api/profile/download", {
-                      method: "GET",
-                      headers: {
-                        Authorization: `Bearer ${token}`,
-                      },
-                    })
+                    fetch(
+                      "https://multiplatform-webapp.onrender.com/api/profile/download",
+                      {
+                        method: "GET",
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                        },
+                      }
+                    )
                       .then((res) => res.blob())
                       .then((blob) => {
                         const url = window.URL.createObjectURL(blob);

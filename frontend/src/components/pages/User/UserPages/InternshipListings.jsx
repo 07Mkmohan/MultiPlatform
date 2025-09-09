@@ -37,7 +37,7 @@ const InternshipListings = () => {
   const fetchInternships = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/student/internships",
+        "https://multiplatform-webapp.onrender.com/api/student/internships",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -52,7 +52,7 @@ const InternshipListings = () => {
   const fetchApplications = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/student/internship-applications",
+        "https://multiplatform-webapp.onrender.com/api/student/internship-applications",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -67,7 +67,7 @@ const InternshipListings = () => {
   const fetchFavorites = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/student/favorites",
+        "https://multiplatform-webapp.onrender.com/api/student/favorites",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -100,7 +100,7 @@ const InternshipListings = () => {
   const handleApply = async (jobId) => {
     try {
       await axios.post(
-        "http://localhost:8080/api/student/apply-internship",
+        "https://multiplatform-webapp.onrender.com/api/student/apply-internship",
         { jobId },
         {
           headers: {
@@ -122,7 +122,7 @@ const InternshipListings = () => {
     try {
       if (favorites.includes(id)) {
         await axios.delete(
-          `http://localhost:8080/api/student/favorites/${id}`,
+          `https://multiplatform-webapp.onrender.com/api/student/favorites/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -131,7 +131,7 @@ const InternshipListings = () => {
         setFavorites(favorites.filter((fid) => fid !== id));
       } else {
         await axios.post(
-          `http://localhost:8080/api/student/favorites/${id}`,
+          `https://multiplatform-webapp.onrender.com/api/student/favorites/${id}`,
           {},
           {
             headers: {

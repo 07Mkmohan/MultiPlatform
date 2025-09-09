@@ -31,11 +31,13 @@ function Login() {
     const payload = { email, password };
 
     if (role === "user") {
-      loginUrl = "http://localhost:8080/api/users/loginUser";
+      loginUrl =
+        "https://multiplatform-webapp.onrender.com/api/users/loginUser";
     } else if (role === "admin") {
-      loginUrl = "http://localhost:8080/api/admins/login";
+      loginUrl = "https://multiplatform-webapp.onrender.com/api/admins/login";
     } else if (role === "recruiter") {
-      loginUrl = "http://localhost:8080/api/recruiters/login";
+      loginUrl =
+        "https://multiplatform-webapp.onrender.com/api/recruiters/login";
     }
 
     try {

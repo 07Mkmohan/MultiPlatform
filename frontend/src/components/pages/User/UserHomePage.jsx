@@ -46,7 +46,7 @@ const UserHomePage = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:8080/api/users/logout",
+        "https://multiplatform-webapp.onrender.com/api/users/logout",
         {},
         { withCredentials: true }
       );
