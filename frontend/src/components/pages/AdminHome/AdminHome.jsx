@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // react-calendar default styles
-import "./AdminHome.css";
+import "react-calendar/dist/Calendar.css";
+import "./adminhome.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
