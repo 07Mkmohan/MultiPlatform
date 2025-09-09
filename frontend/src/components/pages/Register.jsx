@@ -46,7 +46,7 @@ function Register() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/users/registerUser",
+        "https://multiplatform-webapp.onrender.com/api/users/registerUser",
         {
           firstName: formData.firstName,
           middleName: formData.middleName,
