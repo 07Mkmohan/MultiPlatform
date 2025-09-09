@@ -18,5 +18,12 @@ RUN ./mvnw clean package -DskipTests
 # ---- Run Stage ----
 FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+
+# Copy jar from build stage
+COPY --from=build /app/target/*.jar /app/app.jar
+
+# Expose port (Spring Boot default)
+EXPOSE 8080
+
+# Run app
+ENTRYPOINT ["java","-jar","/app/app.jar"]
