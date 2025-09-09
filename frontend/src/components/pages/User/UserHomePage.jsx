@@ -11,7 +11,7 @@ import {
   FaBell,
   FaSignOutAlt,
 } from "react-icons/fa";
-import "./UserHome.css";
+import "./userHome.css";
 import axios from "axios";
 
 import Dashboard from "./UserPages/Dashboard";
