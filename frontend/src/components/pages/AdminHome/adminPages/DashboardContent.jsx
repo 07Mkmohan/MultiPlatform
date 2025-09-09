@@ -13,7 +13,7 @@ import {
   CartesianGrid,
   Legend,
 } from "recharts";
-import "./Adminpage.css";
+import "./adminpage.css";
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
