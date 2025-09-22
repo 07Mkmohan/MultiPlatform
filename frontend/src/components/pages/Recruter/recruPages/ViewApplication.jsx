@@ -32,9 +32,12 @@ const ViewApplications = () => {
     }
 
     axios
-      .get("http://localhost:8080/api/recruiter/applications", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(
+        "https://multiplatform-webapp.onrender.com/api/recruiter/applications",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
       .then((res) => {
         if (Array.isArray(res.data)) {
           setApplications(res.data);
@@ -53,7 +56,7 @@ const ViewApplications = () => {
 
     axios
       .put(
-        `http://localhost:8080/api/recruiter/applications/${applicationId}/status?status=${newStatus}`,
+        `https://multiplatform-webapp.onrender.com/api/recruiter/applications/${applicationId}/status?status=${newStatus}`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

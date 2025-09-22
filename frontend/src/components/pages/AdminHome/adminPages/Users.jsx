@@ -24,7 +24,7 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/admins/allUsers"
+        "https://multiplatform-webapp.onrender.com/api/admins/allUsers"
       );
       setUsers(response.data);
     } catch (error) {
@@ -35,9 +35,12 @@ const Users = () => {
   const handleDelete = async (email) => {
     if (!window.confirm(`Are you sure you want to delete ${email}?`)) return;
     try {
-      await axios.delete("http://localhost:8080/api/admins/deleteUser", {
-        params: { email },
-      });
+      await axios.delete(
+        "https://multiplatform-webapp.onrender.com/api/admins/deleteUser",
+        {
+          params: { email },
+        }
+      );
       setUsers((prev) => prev.filter((u) => u.email !== email));
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -48,7 +51,7 @@ const Users = () => {
   const handleSave = async () => {
     try {
       await axios.put(
-        "http://localhost:8080/api/admins/updateUser",
+        "https://multiplatform-webapp.onrender.com/api/admins/updateUser",
         selectedUser
       );
       setUsers((prev) =>

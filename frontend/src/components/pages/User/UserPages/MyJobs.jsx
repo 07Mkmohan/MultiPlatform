@@ -38,7 +38,7 @@ const MyJobs = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/student/applications`,
+        `https://multiplatform-webapp.onrender.com/api/student/applications`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -96,7 +96,7 @@ const MyJobs = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/student/applications/${jobToDelete.id}`,
+        `https://multiplatform-webapp.onrender.com/api/student/applications/${jobToDelete.id}`,
         {
           method: "DELETE",
           headers: {

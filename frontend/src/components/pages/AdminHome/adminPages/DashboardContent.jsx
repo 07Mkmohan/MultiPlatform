@@ -29,12 +29,19 @@ const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         const [userRes, jobRes, internRes, appRes] = await Promise.all([
-          axios.get("http://localhost:8080/api/admins/allUsers"),
-          axios.get("http://localhost:8080/api/admin/jobs"),
-          axios.get("http://localhost:8080/api/admin/internships"),
-          axios.get("http://localhost:8080/api/admin/applications/with-jobs", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
+          axios.get(
+            "https://multiplatform-webapp.onrender.com/api/admins/allUsers"
+          ),
+          axios.get("https://multiplatform-webapp.onrender.com/api/admin/jobs"),
+          axios.get(
+            "https://multiplatform-webapp.onrender.com/api/admin/internships"
+          ),
+          axios.get(
+            "https://multiplatform-webapp.onrender.com/api/admin/applications/with-jobs",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          ),
         ]);
 
         setUsers(userRes.data);

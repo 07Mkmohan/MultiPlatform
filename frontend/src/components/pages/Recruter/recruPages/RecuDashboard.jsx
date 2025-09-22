@@ -44,18 +44,30 @@ const Dashboard = () => {
 
         const [jobsRes, internshipsRes, interviewsRes, applicationsRes] =
           await Promise.all([
-            fetch("http://localhost:8080/api/recruiter/jobs", {
-              headers: { Authorization: `Bearer ${token}` },
-            }),
-            fetch("http://localhost:8080/api/recruiter/internships", {
-              headers: { Authorization: `Bearer ${token}` },
-            }),
-            fetch("http://localhost:8080/api/recruiter/interviews", {
-              headers: { Authorization: `Bearer ${token}` },
-            }),
-            fetch("http://localhost:8080/api/recruiter/applications", {
-              headers: { Authorization: `Bearer ${token}` },
-            }),
+            fetch(
+              "https://multiplatform-webapp.onrender.com/api/recruiter/jobs",
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            ),
+            fetch(
+              "https://multiplatform-webapp.onrender.com/api/recruiter/internships",
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            ),
+            fetch(
+              "https://multiplatform-webapp.onrender.com/api/recruiter/interviews",
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            ),
+            fetch(
+              "https://multiplatform-webapp.onrender.com/api/recruiter/applications",
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            ),
           ]);
 
         if (
@@ -90,7 +102,7 @@ const Dashboard = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/recruiter/${endpoint}`,
+        `https://multiplatform-webapp.onrender.com/api/recruiter/${endpoint}`,
         {
           method: "DELETE",
         }
@@ -149,7 +161,7 @@ const Dashboard = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/api/recruiter/${endpoint}`,
+        `https://multiplatform-webapp.onrender.com/api/recruiter/${endpoint}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

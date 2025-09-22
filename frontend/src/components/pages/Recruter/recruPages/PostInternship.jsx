@@ -31,7 +31,7 @@ const PostInternship = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/recruiter/postInternship",
+        "https://multiplatform-webapp.onrender.com/api/recruiter/postInternship",
         {
           method: "POST",
           headers: {

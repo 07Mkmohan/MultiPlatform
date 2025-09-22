@@ -19,7 +19,7 @@ const Applications = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        "http://localhost:8080/api/admin/applications/with-jobs",
+        "https://multiplatform-webapp.onrender.com/api/admin/applications/with-jobs",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -47,7 +47,7 @@ const Applications = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:8080/api/admin/applications/${selectedAppId}`,
+        `https://multiplatform-webapp.onrender.com/api/admin/applications/${selectedAppId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

@@ -29,7 +29,7 @@ const SavedInternships = () => {
   const fetchSavedInternships = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/student/favorites",
+        "https://multiplatform-webapp.onrender.com/api/student/favorites",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -44,7 +44,7 @@ const SavedInternships = () => {
   const fetchApplications = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/student/internship-applications",
+        "https://multiplatform-webapp.onrender.com/api/student/internship-applications",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -58,9 +58,12 @@ const SavedInternships = () => {
 
   const deleteSavedInternship = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/student/favorites/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://multiplatform-webapp.onrender.com/api/student/favorites/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       toast.info("Internship removed from saved list.");
       setInternships((prev) => prev.filter((intern) => intern.id !== id));
     } catch (error) {

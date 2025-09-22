@@ -20,7 +20,9 @@ const ManageJobs = () => {
 
   const fetchJobs = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/admin/jobs");
+      const response = await axios.get(
+        "https://multiplatform-webapp.onrender.com/api/admin/jobs"
+      );
       setJobs(response.data);
     } catch (error) {
       console.error("Error fetching jobs:", error);
@@ -31,7 +33,7 @@ const ManageJobs = () => {
   const confirmDelete = async () => {
     try {
       await axios.delete(
-        `http://localhost:8080/api/admin/jobs/${deletingJob.id}`
+        `https://multiplatform-webapp.onrender.com/api/admin/jobs/${deletingJob.id}`
       );
       toast.success("Job deleted successfully!");
       setDeletingJob(null);
@@ -46,7 +48,7 @@ const ManageJobs = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:8080/api/admin/jobs/${editingJob.id}`,
+        `https://multiplatform-webapp.onrender.com/api/admin/jobs/${editingJob.id}`,
         editingJob
       );
       toast.success("Job updated successfully!");

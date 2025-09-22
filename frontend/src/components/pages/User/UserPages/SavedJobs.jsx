@@ -51,7 +51,7 @@ const SavedJobs = () => {
 
   // Fetch saved jobs
   useEffect(() => {
-    fetch("http://localhost:8080/api/student/saved-jobs", {
+    fetch("https://multiplatform-webapp.onrender.com/api/student/saved-jobs", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -67,12 +67,15 @@ const SavedJobs = () => {
 
   // Fetch applied jobs
   useEffect(() => {
-    fetch("http://localhost:8080/api/student/applications", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      "https://multiplatform-webapp.onrender.com/api/student/applications",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch applied jobs");
         return res.json();
@@ -89,10 +92,13 @@ const SavedJobs = () => {
 
   const proceedDelete = () => {
     if (!jobToDelete) return;
-    fetch(`http://localhost:8080/api/student/saved-jobs/${jobToDelete.id}`, {
-      method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    fetch(
+      `https://multiplatform-webapp.onrender.com/api/student/saved-jobs/${jobToDelete.id}`,
+      {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Failed to remove saved job");
         setSavedJobs((prev) => prev.filter((job) => job.id !== jobToDelete.id));
@@ -117,13 +123,16 @@ const SavedJobs = () => {
 
   const handleUndo = (job) => {
     if (!job) return;
-    fetch(`http://localhost:8080/api/student/saved-jobs/${job.id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://multiplatform-webapp.onrender.com/api/student/saved-jobs/${job.id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Failed to restore job");
         setSavedJobs((prev) => [...prev, job]);
@@ -191,7 +200,7 @@ const SavedJobs = () => {
       return;
     }
 
-    fetch("http://localhost:8080/api/student/apply", {
+    fetch("https://multiplatform-webapp.onrender.com/api/student/apply", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

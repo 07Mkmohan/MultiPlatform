@@ -7,7 +7,7 @@ const Notifications = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/student/notifications") // 🔁 Replace with your actual endpoint
+    fetch("https://multiplatform-webapp.onrender.com/api/student/notifications") // 🔁 Replace with your actual endpoint
       .then((res) => res.json())
       .then((data) => {
         const formatted = data.map((note) => ({

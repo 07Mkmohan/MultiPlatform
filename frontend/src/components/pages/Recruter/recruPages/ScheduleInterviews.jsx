@@ -31,7 +31,7 @@ const ScheduleInterviews = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/recruiter/scheduleInterview",
+        "https://multiplatform-webapp.onrender.com/api/recruiter/scheduleInterview",
         {
           method: "POST",
           headers: {

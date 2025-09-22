@@ -58,7 +58,7 @@ const Settings = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/api/admins/change-password",
+        "https://multiplatform-webapp.onrender.com/api/admins/change-password",
         {
           method: "PUT",
           headers: {

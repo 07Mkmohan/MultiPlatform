@@ -27,7 +27,7 @@ const ManageInternships = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/admin/internships")
+      .get("https://multiplatform-webapp.onrender.com/api/admin/internships")
       .then((res) => {
         setInternships(res.data);
         setLoading(false);
@@ -40,7 +40,9 @@ const ManageInternships = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:8080/api/admin/internships/${id}`)
+      .delete(
+        `https://multiplatform-webapp.onrender.com/api/admin/internships/${id}`
+      )
       .then(() => {
         setInternships(internships.filter((i) => i.id !== id));
         setConfirmDelete(null);
@@ -60,7 +62,7 @@ const ManageInternships = () => {
   const handleSave = () => {
     axios
       .put(
-        `http://localhost:8080/api/admin/internships/${editingInternship.id}`,
+        `https://multiplatform-webapp.onrender.com/api/admin/internships/${editingInternship.id}`,
         editingInternship
       )
       .then((res) => {
@@ -80,7 +82,10 @@ const ManageInternships = () => {
     };
 
     axios
-      .put(`http://localhost:8080/api/admin/internships/${id}`, updated)
+      .put(
+        `https://multiplatform-webapp.onrender.com/api/admin/internships/${id}`,
+        updated
+      )
       .then(() => {
         setInternships((prev) => prev.map((i) => (i.id === id ? updated : i)));
       })
